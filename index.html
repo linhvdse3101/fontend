@@ -6,12 +6,33 @@
     <link rel="stylesheet" href="dist/css/grapes.min.css">
     <script src="dist/grapes.min.js"></script>
     <style>
-        body,
-        html {
-            height: 100%;
-            margin: 0;
+        body, html{ height: 100%; margin: 0;}
+
+        .gjs-block-svg {
+            width: 61%;
+        }
+
+        .gjs-block-svg-path {
+            fill: white;
         }
     </style>
+<!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <script src="dist/block-bs.js"></script>
+    <!--    <script src="dist/grapesjs-tui-image-editor.min.js"></script>-->
+    <script src="dist/grapesjs-plugin-ckeditor.js"></script>
+    <script src="dist/grapesjs-plugin-forms.min.js"></script>
+    <script src="dist/grapesjs-navbar.min.js"></script>
+    <script src="dist/grapesjs-lory-slider.min.js"></script>
+    <script src="dist/grapesjs-tabs.min.js"></script>
+    <script src="dist/grapesjs-tooltip.min.js"></script>
+    <script src="dist/grapesjs-custom-code.min.js"></script>
+    <script src="dist/grapesjs-touch.min.js"></script>
+    <script src="dist/grapesjs-indexeddb.min.js"></script>
+    <script src="dist/grapesjs-firestore.min.js"></script>
+
+
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-firestore.js"></script>
 </head>
 
 <body>
@@ -80,6 +101,26 @@
         container: '#gjs',
         height: '100%',
         fromElement: true,
+        plugins: ['grapesjs-blocks-basic', 'grapesjs-tui-image-editor','grapesjs-plugin-forms','gjs-navbar',
+            'grapesjs-lory-slider', 'grapesjs-tabs', 'grapesjs-tooltip', 'grapesjs-custom-code', 'grapesjs-touch',
+        'grapesjs-indexeddb', 'grapesjs-firestore'],
+        pluginsOpts: {
+            'grapesjs-tui-image-editor': {some: 'value'},
+            'gjs-blocks-basic': {/* ...options */},
+            'grapesjs-plugin-forms': {},
+            'gjs-navbar': { },
+            'grapesjs-lory-slider': {},
+            'grapesjs-tabs': {},
+            'grapesjs-tooltip': { some: 'value' },
+            'grapesjs-custom-code': {},
+            'grapesjs-indexeddb': {},
+            'grapesjs-firestore': {
+                docId: 'someID',
+                apiKey: '***',
+                authDomain: '***.firebaseapp.com',
+                projectId: '***',
+            }
+        },
         storageManager: {autoload: 0},
         styleManager: {
             sectors: [{
@@ -106,70 +147,106 @@
                 name: 'Extra',
                 open: false,
                 buildProps: ['transition', 'perspective', 'transform'],
-            }
-            ],
+            }],
         },
+
     });
 
-    editor.BlockManager.add('testBlock', {
-        label: 'Block',
-        attributes: {class: 'gjs-fonts gjs-f-b1'},
-        content: `<div style="padding-top:50px; padding-bottom:50px; text-align:center">Test block</div>`
+//     editor.BlockManager.add('testBlock', {
+//         label: 'Block',
+//         attributes: {class: 'gjs-fonts gjs-f-b1', },
+//         content: `
+//     <table style="width: 100%">
+//     <tr style="width: 100%">
+//     <div style="padding-top:50px; padding-bottom:50px; text-align:center">Test block</div>
+//     </tr>
+//     </table>
+// `
+//     });
+//
+//     editor.BlockManager.add('the-row-block', {
+//         label: '2 Columns',
+//         attributes: {class: 'gjs-fonts gjs-f-b2'},
+//         content: `    <table style="width: 100%">
+//     <tr style="width: 100%">
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 50%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 50%; display: inline-block">Test block</td></tr></table>
+// `,
+//     });
+//     editor.BlockManager.add('the-row-block1', {
+//         label: '2 Columns',
+//         attributes: {class: 'gjs-fonts gjs-f-b2'},
+//         content: `
+// <table style="width: 100%">
+//     <tr style="width: 100%">
+//             <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 70%; display: inline-block">Test block</td>
+//             <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 30%; display: inline-block">Test block</td>
+//     </tr>
+// </table>
+// `,
+//     });
+//     editor.BlockManager.add('the-row-block2', {
+//         label: '2 Columns',
+//         attributes: {class: 'gjs-fonts gjs-f-b2'},
+//         content: ` <table style="width: 100%">
+//     <tr style="width: 100%">
+//      <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 30%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 70%; display: inline-block">Test block</td>
+//                     </tr></table>
+// `,
+//     });
+//     editor.BlockManager.add('the-row-block3', {
+//         label: '3 Columns',
+//         attributes: {class: 'gjs-fonts gjs-f-b3'},
+//         content: `<table style="width: 100%">
+//     <tr style="width: 100%">
+//   <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 33.33%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 33.33%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 33.33%; display: inline-block">Test block</td>
+// </tr></table>
+// `,
+//     });
+//     editor.BlockManager.add('the-row-block4', {
+//         label: '4 Columns',
+//         attributes: {class: 'gjs-fonts gjs-f-b4'},
+//         content: `  <table style="width: 100%">
+//     <tr style="width: 100%">
+//   <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 25%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 25%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 25%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 25%; display: inline-block">Test block</td></tr></table>
+// `,
+//     });
+//
+//     editor.BlockManager.add('the-row-block', {
+//         label: '5 Columns',
+//         attributes: {class: 'gjs-fonts gjs-f-b2'},
+//         content: `  <table style="width: 100%">
+//     <tr style="width: 100%"><td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</td>
+//                     <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</td></tr></table>
+// `,
+//     });
+    editor.on('storage:load', function(e) {
+        console.log('STORAGE:LOAD ', e);
     });
-
-    editor.BlockManager.add('the-row-block', {
-        label: '2 Columns',
-        attributes: {class: 'gjs-fonts gjs-f-b2'},
-        content: `
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 50%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 50%; display: inline-block">Test block</div>
-`,
+    editor.on('storage:store', function(e) {
+        console.log('STORAGE:STORE ', e);
     });
-    editor.BlockManager.add('the-row-block1', {
-        label: '2 Columns',
-        attributes: {class: 'gjs-fonts gjs-f-b2'},
-        content: `
-<table style="width: 100%">
-    <tr style="width: 100%">
-            <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 70%; display: inline-block">Test block</td>
-            <td style="padding-top:50px; padding-bottom:50px; text-align:center; width: 30%; display: inline-block">Test block</td>
-    </tr>
-</table>
-`,
+    editor.on('storage:error', function(e) {
+        console.log('STORAGE:ERROR ', e);
     });
-    editor.BlockManager.add('the-row-block2', {
-        label: '2 Columns',
-        attributes: {class: 'gjs-fonts gjs-f-b2'},
-        content: `  <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 30%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 70%; display: inline-block">Test block</div>
-`,
+    window.editor = editor;
+    editor.on('storage:load', function(e) {
+        console.log('STORAGE:LOAD ', e);
     });
-    editor.BlockManager.add('the-row-block3', {
-        label: '3 Columns',
-        attributes: {class: 'gjs-fonts gjs-f-b3'},
-        content: `  <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 33.33%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 33.33%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 33.33%; display: inline-block">Test block</div>`,
+    editor.on('storage:store', function(e) {
+        console.log('STORAGE:STORE ', e);
     });
-    editor.BlockManager.add('the-row-block4', {
-        label: '4 Columns',
-        attributes: {class: 'gjs-fonts gjs-f-b4'},
-        content: `  <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 25%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 25%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 25%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 25%; display: inline-block">Test block</div>
-`,
-    });
-
-    editor.BlockManager.add('the-row-block', {
-        label: '5 Columns',
-        attributes: {class: 'gjs-fonts gjs-f-b2'},
-        content: `  <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</div>
-                    <div style="padding-top:50px; padding-bottom:50px; text-align:center; width: 20%; display: inline-block">Test block</div>
-`,
+    editor.on('storage:error', function(e) {
+        console.log('STORAGE:ERROR ', e);
     });
 </script>
 </body>
